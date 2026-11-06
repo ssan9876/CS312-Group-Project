@@ -1,0 +1,48 @@
+<aside class="filters">
+  <h2>Filter</h2>
+  <form action="/search" method="get">
+    <input type="hidden" name="q" value="<%= query.q || '' %>">
+
+    <%# TODO(Dwayne, Phase 1): cuisine, dietary tag, and meal type filters. %>
+    <label>Cuisine
+      <select name="cuisine">
+        <option value="">Any</option>
+        <% options.CUISINES.forEach((value) => { %><option><%= value %></option><% }) %>
+      </select>
+    </label>
+    <label>Dietary
+      <select name="dietary">
+        <option value="">Any</option>
+        <% options.DIETARY_TAGS.forEach((value) => { %><option><%= value %></option><% }) %>
+      </select>
+    </label>
+    <label>Meal type
+      <select name="mealType">
+        <option value="">Any</option>
+        <% options.MEAL_TYPES.forEach((value) => { %><option><%= value %></option><% }) %>
+      </select>
+    </label>
+
+    <%# TODO(Seth, Phase 1): cook time, difficulty, and minimum rating filters. %>
+    <label>Cook time
+      <select name="cookTime">
+        <option value="">Any</option>
+        <% options.COOK_TIME_RANGES.forEach((range) => { %><option value="<%= range.value %>"><%= range.label %></option><% }) %>
+      </select>
+    </label>
+    <label>Difficulty
+      <select name="difficulty">
+        <option value="">Any</option>
+        <% options.DIFFICULTIES.forEach((value) => { %><option><%= value %></option><% }) %>
+      </select>
+    </label>
+    <label>Minimum rating
+      <select name="minRating">
+        <option value="">Any</option>
+        <% [1, 2, 3, 4, 5].forEach((value) => { %><option><%= value %></option><% }) %>
+      </select>
+    </label>
+
+    <button type="submit">Apply</button>
+  </form>
+</aside>

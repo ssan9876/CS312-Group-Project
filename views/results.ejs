@@ -1,0 +1,10 @@
+<%- include('partials/header') %>
+<%# TODO(Seth, Phase 1): show a message when no recipes match. %>
+<h1>Search results</h1>
+<div class="results-layout">
+  <div class="recipe-grid">
+    <% recipes.forEach((recipe) => { %><%- include('partials/recipe-card', { recipe }) %><% }) %>
+  </div>
+  <%- include('partials/filters') %>
+</div>
+<%- include('partials/footer') %>

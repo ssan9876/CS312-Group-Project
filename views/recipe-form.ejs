@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+<%# TODO(unassigned): build and connect the recipe submission form. %>
+<form class="form-box" action="/recipes" method="post" enctype="multipart/form-data">
+  <h1>Submit a recipe</h1>
+  <label>Title <input name="title" required></label>
+  <label>Ingredients, one per line <textarea name="ingredients" rows="5" required></textarea></label>
+  <label>Instructions <textarea name="instructions" rows="8" required></textarea></label>
+  <label>Cuisine
+    <select name="cuisine" required>
+      <% options.CUISINES.forEach((value) => { %><option><%= value %></option><% }) %>
+    </select>
+  </label>
+  <label>Meal type
+    <select name="mealType" required>
+      <% options.MEAL_TYPES.forEach((value) => { %><option><%= value %></option><% }) %>
+    </select>
+  </label>
+  <fieldset>
+    <legend>Dietary tags</legend>
+    <% options.DIETARY_TAGS.forEach((value) => { %>
+      <label><input type="checkbox" name="dietaryTags" value="<%= value %>"> <%= value %></label>
+    <% }) %>
+  </fieldset>
+  <label>Cook time in minutes <input type="number" name="cookTimeMinutes" min="1" required></label>
+  <label>Difficulty
+    <select name="difficulty" required>
+      <% options.DIFFICULTIES.forEach((value) => { %><option><%= value %></option><% }) %>
+    </select>
+  </label>
+  <label>Photo <input type="file" name="photo" accept="image/*"></label>
+  <button type="submit">Submit recipe</button>
+</form>
+<%- include('partials/footer') %>

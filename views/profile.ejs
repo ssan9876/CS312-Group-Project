@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+<%# Open question: the sketch has a Follow button, but no task covers it. %>
+<section class="profile-summary">
+  <div class="recipe-photo profile-photo">Profile picture</div>
+  <div>
+    <h1><%= profile.username %></h1>
+    <p><%= profile.firstName %> <%= profile.lastName %></p>
+    <p>Recipes uploaded: <%= recipes.length %></p>
+    <p><%= profile.bio %></p>
+  </div>
+</section>
+<div class="profile-columns">
+  <section>
+    <h2>Recipes</h2>
+    <div class="recipe-grid">
+      <% recipes.forEach((recipe) => { %><%- include('partials/recipe-card', { recipe }) %><% }) %>
+    </div>
+  </section>
+  <section>
+    <h2>Comments</h2>
+    <% comments.forEach((comment) => { %>
+      <div class="comment">
+        <strong><a href="/recipes/<%= comment.recipeId %>"><%= comment.recipeTitle %></a></strong>
+        <p><%= comment.body %></p>
+      </div>
+    <% }) %>
+  </section>
+</div>
+<%- include('partials/footer') %>

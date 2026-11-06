@@ -1,0 +1,16 @@
+<%# TODO(Seth, Phase 1): recipe card. TODO(unassigned): Save button. %>
+<article class="recipe-card">
+  <div class="recipe-photo">
+    <% if (recipe.photoUrl) { %>
+      <img src="<%= recipe.photoUrl %>" alt="<%= recipe.title %>">
+    <% } else { %>
+      Photo
+    <% } %>
+  </div>
+  <h3><a href="/recipes/<%= recipe.id %>"><%= recipe.title %></a></h3>
+  <p><%= recipe.cuisine %> | <%= recipe.cookTimeMinutes %> min | <%= recipe.difficulty %></p>
+  <p>Rating: <%= recipe.reviewCount ? recipe.averageRating : 'none yet' %></p>
+  <form action="/recipes/<%= recipe.id %>/save" method="post">
+    <button type="submit">Save</button>
+  </form>
+</article>

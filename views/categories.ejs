@@ -1,0 +1,12 @@
+<%- include('partials/header') %>
+<%# TODO(Seth, Phase 1): style this page to match the categories sketch. %>
+<h1>Categories</h1>
+<h2>Meal type</h2>
+<div class="category-row">
+  <% mealTypes.forEach((value) => { %><a class="category" href="/search?mealType=<%= encodeURIComponent(value) %>"><%= value %></a><% }) %>
+</div>
+<h2>Popular cuisines</h2>
+<div class="category-row">
+  <% cuisines.forEach((value) => { %><a class="category" href="/search?cuisine=<%= encodeURIComponent(value) %>"><%= value %></a><% }) %>
+</div>
+<%- include('partials/footer') %>

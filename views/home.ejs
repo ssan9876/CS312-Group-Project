@@ -1,0 +1,8 @@
+<%- include('partials/header') %>
+<%# TODO(Dwayne, Phase 1): replace these placeholders with the homepage layout. %>
+<h1>Share and discover recipes</h1>
+<h2>Featured recipes</h2>
+<div class="recipe-grid">
+  <% recipes.forEach((recipe) => { %><%- include('partials/recipe-card', { recipe }) %><% }) %>
+</div>
+<%- include('partials/footer') %>
