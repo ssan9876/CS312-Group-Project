@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+<article class="recipe-detail">
+  <h1><%= recipe.title %></h1>
+  <p>By <a href="/profile/<%= encodeURIComponent(recipe.username) %>"><%= recipe.username %></a></p>
+  <p><%= recipe.cuisine %> | <%= recipe.mealType %> | <%= recipe.cookTimeMinutes %> min | <%= recipe.difficulty %></p>
+  <p>Tags: <%= recipe.dietaryTags.join(', ') || 'none' %></p>
+
+  <%# TODO(Dwayne, Phase 2): replace this with the 5-star rating feature. %>
+  <p>Rating: <%= recipe.reviewCount ? recipe.averageRating : 'none yet' %> (<%= recipe.reviewCount %> reviews)</p>
+
+  <h2>Ingredients</h2>
+  <ul>
+    <% recipe.ingredients.forEach((ingredient) => { %><li><%= ingredient %></li><% }) %>
+  </ul>
+
+  <h2>Instructions</h2>
+  <p class="instructions"><%= recipe.instructions %></p>
+
+  <%# TODO(Dwayne, Phase 2): add the comment form and threaded replies. %>
+  <h2>Comments</h2>
+  <% comments.forEach((comment) => { %>
+    <div class="comment<%= comment.parentCommentId ? ' reply' : '' %>">
+      <strong><%= comment.username %></strong>
+      <p><%= comment.body %></p>
+    </div>
+  <% }) %>
+</article>
+<%- include('partials/footer') %>

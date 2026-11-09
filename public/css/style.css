@@ -1,0 +1,85 @@
+/* Starter styles only. TODO(Seth, Phase 2): phone and tablet layouts. */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, sans-serif;
+  color: #222;
+  background: #fff;
+}
+
+a { color: #1f5f4a; }
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #ccc;
+}
+
+.site-title { font-size: 1.25rem; font-weight: 700; text-decoration: none; }
+.site-nav { display: flex; gap: 12px; }
+.search-form { position: relative; display: flex; gap: 8px; margin-left: auto; }
+.search-form input { width: 260px; max-width: 100%; padding: 6px 8px; }
+.search-suggestions { position: absolute; top: 100%; left: 0; right: 0; z-index: 10; max-height: 320px; overflow-y: auto; margin: 4px 0 0; padding: 4px 0; list-style: none; background: #fff; border: 1px solid #ccc; border-radius: 4px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); }
+.search-suggestions li { display: flex; justify-content: space-between; gap: 12px; padding: 6px 10px; cursor: pointer; }
+.search-suggestions li.active { background: #e6f0ec; }
+.suggestion-type { color: #666; font-size: 0.8rem; }
+
+.site-main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 24px; }
+.site-footer { padding: 16px 24px; border-top: 1px solid #ccc; text-align: center; }
+
+.recipe-grid { flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.recipe-card { display: flex; flex-direction: column; padding: 12px; border: 1px solid #ccc; border-radius: 8px; }
+.recipe-card h3 { margin: 12px 0 8px; font-size: 1.1rem; }
+.recipe-card h3 a { text-decoration: none; }
+.recipe-card h3 a:hover { text-decoration: underline; }
+.recipe-card p { margin: 4px 0; }
+.recipe-photo { display: flex; align-items: center; justify-content: center; height: 140px; overflow: hidden; border-radius: 4px; background: #eee; color: #666; text-decoration: none; }
+.recipe-photo img { width: 100%; height: 100%; object-fit: cover; }
+.recipe-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 8px; }
+.recipe-meta dt { color: #666; font-size: 0.75rem; }
+.recipe-meta dd { margin: 0; }
+.recipe-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; }
+
+/* Read-only stars: a gold row drawn over a grey row, cut to the average rating. */
+.star-rating { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.9rem; }
+.stars { position: relative; display: inline-block; color: #ccc; line-height: 1; letter-spacing: 1px; white-space: nowrap; }
+.stars::before { content: "\2605\2605\2605\2605\2605"; }
+.stars-fill { position: absolute; top: 0; left: 0; overflow: hidden; color: #d99a00; }
+.stars-fill::before { content: "\2605\2605\2605\2605\2605"; }
+.rating-text { color: #555; }
+
+.results-summary { color: #555; }
+.filter-chip { display: inline-block; margin: 0 4px 4px 0; padding: 2px 8px; border-radius: 12px; background: #e6f0ec; }
+.results-layout { display: flex; align-items: flex-start; gap: 24px; }
+.results-main { flex: 1; min-width: 0; }
+.no-results { padding: 32px; border: 1px dashed #bbb; border-radius: 8px; text-align: center; }
+.no-results h2 { margin-top: 0; }
+.filters { width: 220px; flex-shrink: 0; padding: 12px; border: 1px solid #ccc; }
+.filters h2 { margin-top: 0; }
+.filter-actions { display: flex; align-items: center; gap: 12px; }
+.filters label, .form-box label { display: block; margin-bottom: 12px; }
+.filters select, .form-box input:not([type="checkbox"]), .form-box select, .form-box textarea { display: block; width: 100%; margin-top: 4px; padding: 6px; }
+
+.page-intro { color: #555; }
+.category-section { margin-bottom: 32px; }
+.category-row { display: flex; flex-wrap: wrap; gap: 16px; }
+.category { flex: 1 1 160px; max-width: 240px; padding: 24px; border: 1px solid #ccc; border-radius: 8px; font-weight: 600; text-align: center; text-decoration: none; }
+.category:hover, .category:focus-visible { border-color: #1f5f4a; background: #e6f0ec; }
+
+.form-box { max-width: 480px; margin: 0 auto; padding: 24px; border: 1px solid #ccc; }
+.form-box fieldset { margin-bottom: 12px; }
+
+.instructions { white-space: pre-line; }
+.comment { padding: 8px 12px; margin-bottom: 8px; border: 1px solid #ccc; }
+.comment.reply { margin-left: 24px; }
+
+.profile-summary { display: flex; gap: 24px; margin-bottom: 24px; }
+.profile-photo { width: 160px; flex-shrink: 0; }
+.profile-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }

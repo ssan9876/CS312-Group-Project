@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+<%# TODO(Dwayne, Phase 1): signup page layout. Open question: which fields do we keep? %>
+<form class="form-box" action="/signup" method="post">
+  <h1>Sign up</h1>
+  <label>Email <input type="email" name="email" autocomplete="email" required></label>
+  <label>Username <input name="username" autocomplete="username" required></label>
+  <label>First name <input name="firstName" autocomplete="given-name" required></label>
+  <label>Last name <input name="lastName" autocomplete="family-name" required></label>
+  <label>Password <input type="password" name="password" autocomplete="new-password" required></label>
+  <label>Confirm password <input type="password" name="confirmPassword" autocomplete="new-password" required></label>
+  <button type="submit">Sign up</button>
+  <p>Already have an account? <a href="/login">Log in</a></p>
+</form>
+<%- include('partials/footer') %>

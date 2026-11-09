@@ -1,0 +1,22 @@
+<%# Recipe card for every recipe grid. TODO(unassigned): Save button. %>
+<article class="recipe-card">
+  <a class="recipe-photo" href="/recipes/<%= recipe.id %>" tabindex="-1" aria-hidden="true">
+    <% if (recipe.photoUrl) { %>
+      <img src="<%= recipe.photoUrl %>" alt="" loading="lazy">
+    <% } else { %>
+      <span class="photo-placeholder">No photo yet</span>
+    <% } %>
+  </a>
+  <h3><a href="/recipes/<%= recipe.id %>"><%= recipe.title %></a></h3>
+  <dl class="recipe-meta">
+    <div><dt>Cuisine</dt><dd><%= recipe.cuisine %></dd></div>
+    <div><dt>Cook time</dt><dd><%= recipe.cookTimeMinutes %> min</dd></div>
+    <div><dt>Difficulty</dt><dd><%= recipe.difficulty %></dd></div>
+  </dl>
+  <div class="recipe-card-footer">
+    <%- include('star-rating', { average: recipe.averageRating, count: recipe.reviewCount }) %>
+    <form action="/recipes/<%= recipe.id %>/save" method="post">
+      <button type="submit">Save</button>
+    </form>
+  </div>
+</article>

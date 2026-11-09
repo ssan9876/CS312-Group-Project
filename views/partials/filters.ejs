@@ -1,0 +1,55 @@
+<%# Each select keeps its current value, so filters stack: picking a cook time keeps
+    the cuisine from a category link. `query` comes from parseSearchFilters(). %>
+<% const selected = (name, value) => (String(query[name] ?? '') === String(value) ? 'selected' : ''); %>
+<aside class="filters">
+  <h2>Filter</h2>
+  <form action="/search" method="get">
+    <input type="hidden" name="q" value="<%= query.q || '' %>">
+
+    <%# TODO(Dwayne, Phase 1): cuisine, dietary tag, and meal type filters. %>
+    <label>Cuisine
+      <select name="cuisine">
+        <option value="">Any</option>
+        <% options.CUISINES.forEach((value) => { %><option <%= selected('cuisine', value) %>><%= value %></option><% }) %>
+      </select>
+    </label>
+    <label>Dietary
+      <select name="dietary">
+        <option value="">Any</option>
+        <% options.DIETARY_TAGS.forEach((value) => { %><option <%= selected('dietary', value) %>><%= value %></option><% }) %>
+      </select>
+    </label>
+    <label>Meal type
+      <select name="mealType">
+        <option value="">Any</option>
+        <% options.MEAL_TYPES.forEach((value) => { %><option <%= selected('mealType', value) %>><%= value %></option><% }) %>
+      </select>
+    </label>
+
+    <%# Cook time, difficulty, and minimum rating (Seth). %>
+    <label>Cook time
+      <select name="cookTime">
+        <option value="">Any</option>
+        <% options.COOK_TIME_RANGES.forEach((range) => { %><option value="<%= range.value %>" <%= selected('cookTime', range.value) %>><%= range.label %></option><% }) %>
+      </select>
+    </label>
+    <label>Difficulty
+      <select name="difficulty">
+        <option value="">Any</option>
+        <% options.DIFFICULTIES.forEach((value) => { %><option <%= selected('difficulty', value) %>><%= value %></option><% }) %>
+      </select>
+    </label>
+    <label>Minimum rating
+      <select name="minRating">
+        <option value="">Any</option>
+        <% [1, 2, 3, 4].forEach((value) => { %><option value="<%= value %>" <%= selected('minRating', value) %>><%= value %>+ stars</option><% }) %>
+        <option value="5" <%= selected('minRating', 5) %>>5 stars</option>
+      </select>
+    </label>
+
+    <div class="filter-actions">
+      <button type="submit">Apply</button>
+      <a href="/search<%= query.q ? '?q=' + encodeURIComponent(query.q) : '' %>">Clear</a>
+    </div>
+  </form>
+</aside>

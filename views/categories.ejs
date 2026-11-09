@@ -1,0 +1,26 @@
+<%- include('partials/header') %>
+<%# Each link opens the results page with that category already selected in the filters. %>
+<h1>Browse by category</h1>
+<p class="page-intro">Pick a category to see its recipes, then narrow them down with the filters on the results page.</p>
+
+<section class="category-section" aria-labelledby="meal-type-heading">
+  <h2 id="meal-type-heading">Meal type</h2>
+  <div class="category-row">
+    <% mealTypes.forEach((value) => { %><a class="category" href="/search?mealType=<%= encodeURIComponent(value) %>"><%= value %></a><% }) %>
+  </div>
+</section>
+
+<section class="category-section" aria-labelledby="cuisine-heading">
+  <h2 id="cuisine-heading">Popular cuisines</h2>
+  <div class="category-row">
+    <% cuisines.forEach((value) => { %><a class="category" href="/search?cuisine=<%= encodeURIComponent(value) %>"><%= value %></a><% }) %>
+  </div>
+</section>
+
+<section class="category-section" aria-labelledby="dietary-heading">
+  <h2 id="dietary-heading">Dietary</h2>
+  <div class="category-row">
+    <% dietaryTags.forEach((value) => { %><a class="category" href="/search?dietary=<%= encodeURIComponent(value) %>"><%= value %></a><% }) %>
+  </div>
+</section>
+<%- include('partials/footer') %>

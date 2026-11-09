@@ -1,0 +1,34 @@
+<%- include('partials/header') %>
+<% const searchOnly = '/search' + (query.q ? '?q=' + encodeURIComponent(query.q) : ''); %>
+<h1><%= query.q ? `Results for "${query.q}"` : (activeFilters.length ? 'Search results' : 'All recipes') %></h1>
+<p class="results-summary">
+  <%= recipes.length %> <%= recipes.length === 1 ? 'recipe' : 'recipes' %>
+  <% if (activeFilters.length) { %>
+    | Filtered by:
+    <% activeFilters.forEach((filter) => { %><span class="filter-chip"><%= filter.label %>: <%= filter.value %></span><% }) %>
+    <a href="<%= searchOnly %>">Clear filters</a>
+  <% } %>
+</p>
+<div class="results-layout">
+  <div class="results-main">
+    <% if (recipes.length) { %>
+      <div class="recipe-grid">
+        <% recipes.forEach((recipe) => { %><%- include('partials/recipe-card', { recipe }) %><% }) %>
+      </div>
+    <% } else { %>
+      <div class="no-results" role="status">
+        <h2>No recipes match your search.</h2>
+        <p>Try another word or ingredient, check the spelling, or remove a filter.</p>
+        <p>
+          <% if (activeFilters.length && query.q) { %>
+            <a href="<%= searchOnly %>">Search "<%= query.q %>" with no filters</a> or <a href="/search">browse all recipes</a>.
+          <% } else { %>
+            <a href="/search">Browse all recipes</a>.
+          <% } %>
+        </p>
+      </div>
+    <% } %>
+  </div>
+  <%- include('partials/filters') %>
+</div>
+<%- include('partials/footer') %>

@@ -1,0 +1,11 @@
+<%# Read-only star display. Pass { average, count }. Dwayne's Phase 2 rating feature adds the way to rate. %>
+<% const average = Number(locals.average) || 0; const count = Number(locals.count) || 0; %>
+<div class="star-rating">
+  <% if (count > 0) { %>
+    <span class="stars" role="img" aria-label="Rated <%= average.toFixed(1) %> out of 5"><span class="stars-fill" style="width: <%= Math.min(average / 5, 1) * 100 %>%"></span></span>
+    <span class="rating-text"><%= average.toFixed(1) %> (<%= count %> <%= count === 1 ? 'review' : 'reviews' %>)</span>
+  <% } else { %>
+    <span class="stars" aria-hidden="true"></span>
+    <span class="rating-text">No ratings yet</span>
+  <% } %>
+</div>
