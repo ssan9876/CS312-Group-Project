@@ -30,7 +30,7 @@ jobs:
       - name: Start the Express server
         run: |
           PORT=3000 node server.js &
-          curl -s --retry 15 --retry-connrefused --retry-delay 1 -o /dev/null http://loc
+          curl -s --retry 15 --retry-connrefused --retry-delay 1 -o /dev/null http://localhost:3000/
 
       - name: Crawl the site into static HTML
         run: |
