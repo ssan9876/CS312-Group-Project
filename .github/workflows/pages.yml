@@ -1,0 +1,58 @@
+name: Deploy static snapshot to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - run: npm ci
+
+      - name: Start the Express server
+        run: |
+          PORT=3000 node server.js &
+          curl -s --retry 15 --retry-connrefused --retry-delay 1 -o /dev/null http://loc
+
+      - name: Crawl the site into static HTML
+        run: |
+          # wget exits with 8 when it hits a 404; treat that as OK
+          wget --mirror --page-requisites --convert-links --adjust-extension \
+               --restrict-file-names=windows --no-host-directories \
+               --directory-prefix=_site http://localhost:3000/ || [ $? -eq 8 ]
+          touch _site/.nojekyll
+          find _site -type f
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
