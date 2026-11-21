@@ -1,29 +1,61 @@
 <%- include('partials/header') %>
-<%# Open question: the sketch has a Follow button, but no task covers it. %>
-<section class="profile-summary">
-  <div class="recipe-photo profile-photo">Profile picture</div>
-  <div>
-    <h1><%= profile.username %></h1>
-    <p><%= profile.firstName %> <%= profile.lastName %></p>
-    <p>Recipes uploaded: <%= recipes.length %></p>
-    <p><%= profile.bio %></p>
-  </div>
-</section>
-<div class="profile-columns">
-  <section>
-    <h2>Recipes</h2>
-    <div class="recipe-grid">
-      <% recipes.forEach((recipe) => { %><%- include('partials/recipe-card', { recipe }) %><% }) %>
+
+<!-- User profile page: data supplied by routes/profile.js -->
+<div class="profile-page">
+  <section class="profile-summary" aria-label="User information">
+    <div class="profile-picture-container">
+      <div class="recipe-photo profile-photo">Profile Picture</div>
+    </div>
+
+    <div class="profile-information">
+      <h1 class="profile-username"><%= profile.username %></h1>
+      <p class="profile-fullname"><%= profile.firstName %> <%= profile.lastName %></p>
+      <p class="profile-rating"><strong>Rating:</strong> <span class="rating-placeholder">Not yet available</span></p>
+      <p class="profile-recipe-count"><strong>Recipes Uploaded:</strong> <%= recipes.length %></p>
+      <div class="profile-bio">
+        <h2>Bio</h2>
+        <p><%= profile.bio || 'This user has not added a bio yet.' %></p>
+      </div>
+    </div>
+
+    <!-- Follow functionality has not been implemented yet. -->
+    <div class="profile-follow">
+      <button class="follow-button" type="button" disabled>+ Follow</button>
     </div>
   </section>
-  <section>
-    <h2>Comments</h2>
-    <% comments.forEach((comment) => { %>
-      <div class="comment">
-        <strong><a href="/recipes/<%= comment.recipeId %>"><%= comment.recipeTitle %></a></strong>
-        <p><%= comment.body %></p>
+
+  <div class="profile-columns">
+    <section class="profile-recipes-section" aria-labelledby="profile-recipes-title">
+      <h2 id="profile-recipes-title" class="profile-section-title">Recipes</h2>
+      <div class="profile-recipe-list">
+        <% if (recipes.length > 0) { %>
+          <% recipes.forEach((recipe) => { %>
+            <%- include('partials/recipe-card', { recipe }) %>
+          <% }) %>
+        <% } else { %>
+          <p class="profile-empty-message">This user has not uploaded any recipes yet.</p>
+        <% } %>
       </div>
-    <% }) %>
-  </section>
+    </section>
+
+    <section class="profile-reviews-section" aria-labelledby="profile-reviews-title">
+      <h2 id="profile-reviews-title" class="profile-section-title">Reviews</h2>
+      <div class="profile-review-list">
+        <% if (comments.length > 0) { %>
+          <% comments.forEach((comment) => { %>
+            <article class="profile-review-card">
+              <h3 class="review-username"><%= profile.username %></h3>
+              <p class="review-recipe-title">
+                <strong>Recipe:</strong>
+                <a href="/recipes/<%= comment.recipeId %>"><%= comment.recipeTitle %></a>
+              </p>
+              <p class="review-content"><%= comment.body %></p>
+            </article>
+          <% }) %>
+        <% } else { %>
+          <p class="profile-empty-message">This user has not written any reviews yet.</p>
+        <% } %>
+      </div>
+    </section>
+  </div>
 </div>
-<%- include('partials/footer') %>
