@@ -21,3 +21,9 @@ INSERT INTO ratings (user_id, recipe_id, stars) VALUES
 INSERT INTO comments (recipe_id, user_id, parent_comment_id, body) VALUES
   (1, 2, NULL, 'Great weeknight dinner.'),
   (1, 1, 1, 'Glad you liked it!');
+
+INSERT INTO saved_recipes (user_id, recipe_id, collection_name) VALUES
+  (1, 3, 'Favorites'),
+  (1, 4, 'Favorites'),
+  (1, 4, 'Weekend breakfasts'),
+  (2, 1, 'Favorites');

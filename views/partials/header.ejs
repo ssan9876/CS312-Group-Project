@@ -17,7 +17,12 @@
       <a href="/">Home</a>
       <% if (currentUser) { %>
         <a href="/profile/<%= encodeURIComponent(currentUser.username) %>">Profile</a>
+        <%# Logging out is a POST so a link or image on another site cannot log people out. %>
+        <form class="logout-form" action="/logout" method="post">
+          <button type="submit" class="link-button">Log out</button>
+        </form>
       <% } else { %>
+        <a href="/login">Log in</a>
         <a href="/signup">Sign up</a>
       <% } %>
     </nav>

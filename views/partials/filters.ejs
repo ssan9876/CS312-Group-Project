@@ -5,6 +5,7 @@
   <h2>Filter</h2>
   <form action="/search" method="get">
     <input type="hidden" name="q" value="<%= query.q || '' %>">
+    <input type="hidden" name="sort" value="<%= locals.sort || '' %>">
 
     <%# TODO(Dwayne, Phase 1): cuisine, dietary tag, and meal type filters. %>
     <label>Cuisine

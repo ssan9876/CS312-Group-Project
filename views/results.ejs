@@ -11,6 +11,16 @@
 </p>
 <div class="results-layout">
   <div class="results-main">
+    <%# Sorting keeps the search and every filter, which ride along as hidden fields. %>
+    <form class="sort-form" action="/search" method="get">
+      <% Object.entries(query).forEach(([name, value]) => { if (value) { %><input type="hidden" name="<%= name %>" value="<%= value %>"><% } }) %>
+      <label>Sort by
+        <select name="sort">
+          <% options.SORT_OPTIONS.forEach((option) => { %><option value="<%= option.value %>" <%= option.value === sort ? 'selected' : '' %>><%= option.label %></option><% }) %>
+        </select>
+      </label>
+      <button type="submit">Sort</button>
+    </form>
     <% if (recipes.length) { %>
       <div class="recipe-grid">
         <% recipes.forEach((recipe) => { %><%- include('partials/recipe-card', { recipe }) %><% }) %>
