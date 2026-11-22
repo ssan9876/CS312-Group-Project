@@ -1,18 +1,20 @@
 const router = require('express').Router();
 const queries = require('../db/queries');
 const options = require('../config/options');
-const { MAX_QUERY_LENGTH, parseSearchFilters, describeFilters } = require('../lib/search-filters');
+const { MAX_QUERY_LENGTH, parseSearchFilters, parseSort, describeFilters } = require('../lib/search-filters');
 
 // Results page for the header search bar, the filters, and the category links.
-// TODO(Seth, Phase 2): real database results and sorting.
+// Results come from PostgreSQL (db/queries.js searchRecipes), filtered and sorted there.
 router.get('/search', async (req, res) => {
   const filters = parseSearchFilters(req.query);
-  const recipes = await queries.searchRecipes(filters, req.query.sort);
+  const sort = parseSort(req.query.sort);
+  const recipes = await queries.searchRecipes(filters, sort);
   res.render('results', {
     title: filters.q ? `Results for "${filters.q}"` : 'Search results',
     recipes,
     options,
     query: filters,
+    sort,
     activeFilters: describeFilters(filters),
   });
 });

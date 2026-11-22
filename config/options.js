@@ -12,4 +12,11 @@ module.exports = {
     { value: '30-60', label: '30-60 minutes', min: 30, max: 60 },
     { value: '60+', label: '60+ minutes', min: 60, max: null },
   ],
+  // Sort choices on the results page. The first one is the default.
+  SORT_OPTIONS: [
+    { value: 'newest', label: 'Newest' },
+    { value: 'rating', label: 'Top rated' },
+    { value: 'quickest', label: 'Quickest' },
+    { value: 'title', label: 'Title (A-Z)' },
+  ],
 };

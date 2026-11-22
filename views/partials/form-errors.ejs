@@ -1,0 +1,8 @@
+<%# Error list for a form. Routes pass errors: ['message', ...] when a submit fails. %>
+<% if (locals.errors && errors.length) { %>
+  <div class="form-errors" role="alert">
+    <ul>
+      <% errors.forEach((message) => { %><li><%= message %></li><% }) %>
+    </ul>
+  </div>
+<% } %>

@@ -12,8 +12,8 @@
       <h1 class="profile-username"><%= profile.username %></h1>
       <!--The full name-->
       <p class="profile-fullname"><%= profile.firstName %> <%= profile.lastName %></p>
-      <!--The ratings, might change if not seen to be needed-->
-      <p class="profile-rating"><strong>Rating:</strong> <span class="rating-placeholder">Not yet available</span></p>
+      <!--The average of every rating on this user's recipes-->
+      <div class="profile-rating"><strong>Ratings received:</strong> <%- include('partials/star-rating', { average: ratingsReceived.average, count: ratingsReceived.count }) %></div>
       <!--The amount of recipes they have-->
       <p class="profile-recipe-count"><strong>Recipes Uploaded:</strong> <%= recipes.length %></p>
       <!--The bio for the user-->
@@ -61,5 +61,23 @@
       </div>
     </section>
   </div>
+  <!--Saved recipe collections: only shown on your own profile, since saves are private-->
+  <% if (isOwnProfile) { %>
+    <section class="profile-collections-section" aria-labelledby="profile-collections-title">
+      <h2 id="profile-collections-title" class="profile-section-title">Your collections</h2>
+      <% if (collections.length > 0) { %>
+        <% collections.forEach((collection) => { %>
+          <div class="profile-collection">
+            <h3 class="profile-collection-name"><%= collection.name %> <span class="profile-collection-count">(<%= collection.recipes.length %>)</span></h3>
+            <div class="recipe-grid">
+              <% collection.recipes.forEach((recipe) => { %><%- include('partials/recipe-card', { recipe }) %><% }) %>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p class="profile-empty-message">You have not saved any recipes yet.</p>
+      <% } %>
+    </section>
+  <% } %>
 </div>
 <%- include('partials/footer') %>
