@@ -1,22 +1,34 @@
 <%# Recipe card for every recipe grid. TODO(unassigned): Save button. %>
 <article class="recipe-card">
   <a class="recipe-photo" href="/recipes/<%= recipe.id %>" tabindex="-1" aria-hidden="true">
+    <!--The recipe photo section-->
     <% if (recipe.photoUrl) { %>
       <img src="<%= recipe.photoUrl %>" alt="" loading="lazy">
     <% } else { %>
+      <!--IF the recipe doesn't have a photo-->
       <span class="photo-placeholder">No photo yet</span>
     <% } %>
   </a>
+  <!--The recipe title connected to the id-->
   <h3><a href="/recipes/<%= recipe.id %>"><%= recipe.title %></a></h3>
   <dl class="recipe-meta">
+    <!--The cuisine, cook time, difficulty connected to the database-->
     <div><dt>Cuisine</dt><dd><%= recipe.cuisine %></dd></div>
     <div><dt>Cook time</dt><dd><%= recipe.cookTimeMinutes %> min</dd></div>
     <div><dt>Difficulty</dt><dd><%= recipe.difficulty %></dd></div>
   </dl>
+  <!--The footer of the of the recipe card-->
   <div class="recipe-card-footer">
     <%- include('star-rating', { average: recipe.averageRating, count: recipe.reviewCount }) %>
     <form action="/recipes/<%= recipe.id %>/save" method="post">
       <button type="submit">Save</button>
     </form>
+  </div>
+
+  <!--The button to navigate to the comments-->
+  <div class="recipe-card-comments">
+    <a class ="comments-button" href="/recipes/<%= recipe.id %>#comments">
+      Comments
+    </a>
   </div>
 </article>
