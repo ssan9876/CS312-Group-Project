@@ -15,6 +15,7 @@ const { suggestFromRecipes, cookTimeRange, searchWords } = require('../lib/searc
 // AVG and COUNT come back from pg as strings, so they are cast to numbers.
 const RECIPE_COLUMNS = `
   r.id,
+  r.user_id AS "userID",
   u.username,
   r.title,
   r.cuisine,
@@ -106,7 +107,13 @@ async function getSuggestions(term) {
 }
 
 async function getFeaturedRecipes() {
-  return sample.recipes.slice(0, 4);
+  const { rows } = await pool.query(
+    `SELECT ${RECIPE_COLUMNS}
+    ${RECIPE_FROM}
+    ORDER BY r.created_at DESC, r.id DESC
+    LIMIT 4`
+  );
+  return rows;
 }
 
 // Gets the recipe from the sql
@@ -139,6 +146,34 @@ async function getRecipeComments(recipeId) {
   );
 
   return rows;
+}
+
+//Checking if the user rated the recipe and update the rating if rating agin
+async function submitRating({ recipeId, userId, stars }) {
+  const { rows } = await pool.query(
+    `INSERT INTO ratings (recipe_id, user_id, stars)
+     VALUES ($1, $2, $3)
+     ON CONFLICT (user_id, recipe_id)
+     DO UPDATE SET
+       stars = EXCLUDED.stars,
+       created_at = now()
+     RETURNING stars`,
+    [recipeId, userId, stars],
+  );
+
+  return rows[0];
+}
+
+//get the ratings from the database for the recipe
+async function getUserRecipeRating(recipeId, userId) {
+  const { rows } = await pool.query(
+    `SELECT stars
+     FROM ratings
+     WHERE recipe_id = $1 AND user_id = $2`,
+    [recipeId, userId],
+  );
+
+  return rows[0]?.stars ?? null;
 }
 
 // This saves the comments to the SQl
@@ -264,6 +299,8 @@ module.exports = {
   getRecipeById,
   getRecipeComments,
   createRecipeComment,
+  submitRating,
+  getUserRecipeRating,
   createUser,
   getUserForLogin,
   getUserByUsername,

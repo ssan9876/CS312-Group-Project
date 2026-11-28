@@ -8,7 +8,47 @@
 
   <!--The recipe rating section-->
   <%# TODO(Dwayne, Phase 2): replace this with the 5-star rating feature. %>
-  <p>Rating: <%= recipe.reviewCount ? recipe.averageRating : 'none yet' %> (<%= recipe.reviewCount %> reviews)</p>
+  <!--The display of the rating-->
+  <%- include('partials/star-rating', {
+    average: recipe.averageRating,
+    count: recipe.reviewCount
+  }) %>
+
+  <!--only allows the logged in user to rate-->
+  <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+    <% if (Number(currentUser.id) !== Number(recipe.userId)) { %>
+      <form
+        class="rating-form"
+        action="/recipes/<%= recipe.id %>/ratings"
+        method="POST"
+      >
+      <!--The display the user sees for the rating-->
+        <h3><%= userRating ? 'Update your rating' : 'Rate this recipe' %></h3>
+        <!--The star ratings-->
+        <% [1, 2, 3, 4, 5].forEach((stars) => { %>
+          <label>
+            <input
+              type="radio"
+              name="stars"
+              value="<%= stars %>"
+              <%= Number(userRating) === stars ? 'checked' : '' %>
+              required
+            >
+            <%= stars %> Star<%= stars === 1 ? '' : 's' %>
+          </label>
+        <% }) %>
+        <!--The button submit for ratings-->
+        <button type="submit">Submit Rating</button>
+      </form>
+      <!--IF the user is the recipe owner, can't rate own recipe-->
+    <% } else { %>
+      <p>You cannot rate your own recipe.</p>
+    <% } %>
+    <!--If the user isn't logged in-->
+  <% } else { %>
+    <p><a href="/login">Log in</a> to rate this recipe.</p>
+  <% } %>
+
   <!--The Recipe ingredients section-->
   <h2>Ingredients</h2>
   <ul>

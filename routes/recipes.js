@@ -19,11 +19,55 @@ router.get('/:id', async (req, res, next) => {
   if (!recipe) return next();
 
   const comments = await queries.getRecipeComments(id);
-  res.render('recipe', { title: recipe.title, recipe, comments });
+  const userRating = req.session.user
+  ? await queries.getUserRecipeRating(id, req.session.user.id)
+  : null;
+  res.render('recipe', { title: recipe.title, recipe, comments, userRating });
 });
 
 // TODO(Dwayne, Phase 2): ratings, comments, and replies.
-router.post('/:id/ratings', notBuilt('Ratings are planned for Phase 2.'));
+
+//The ratings section
+router.post('/:id/ratings', requireLogin, async (req, res, next) => {
+  try {
+    // Making sure the user is real by id
+    if (!/^\d+$/.test(req.params.id)) return next();
+
+    const recipeId = Number(req.params.id);
+
+    // Making sure that the recipe is real
+    const recipe = await queries.getRecipeById(recipeId);
+    if (!recipe) return next();
+
+    // Get the rating from the user
+    const stars = Number(req.body.stars);
+
+    // Allowing for only a 5 star review, no less and no more
+    if (!/^[1-5]$/.test(String(req.body.stars))) {
+      return res.redirect(`/recipes/${recipeId}`);
+    }
+
+    // checks if user recipe and if true, can't rate own recipe
+    if (Number(recipe.userID) === Number(req.session.user.id)) {
+      return res.redirect(`/recipes/${recipeId}`);
+    }
+
+    // Save the rating to sql
+    await queries.submitRating({
+      recipeId,
+      userId: req.session.user.id,
+      stars,
+    });
+
+    // Go back to the recipe page
+    res.redirect(`/recipes/${recipeId}#recipe-rating`);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+//The comments section and replies
 router.post('/:id/comments', requireLogin, async (req, res, next) => {
   try {
     // Making sure that the recipe is valid
