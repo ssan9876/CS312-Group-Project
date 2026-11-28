@@ -1,0 +1,96 @@
+<%# Reusable partial for comments and threaded replies %>
+
+<article
+  id="comment-<%= comment.id %>"
+  class="comment<%= comment.parentCommentId ? ' reply' : '' %>"
+>
+
+  <!-- Information about the comment author -->
+  <div class="comment-header">
+
+    <a class="comment-username"
+       href="/profile/<%= encodeURIComponent(comment.username) %>">
+
+      <%= comment.username %>
+
+    </a>
+
+  </div>
+
+  <!-- The content of the comment -->
+  <p class="comment-body">
+    <%= comment.body %>
+  </p>
+
+  <!-- Only logged-in users can reply -->
+  <% if (currentUser) { %>
+
+    <!-- Expandable reply form -->
+    <details class="comment-reply-details">
+
+      <summary class="reply-button">
+        Reply
+      </summary>
+
+      <form class="reply-form"
+            action="/recipes/<%= recipe.id %>/comments"
+            method="post">
+
+        <!-- Identify which comment is being replied to -->
+        <input
+          type="hidden"
+          name="parentCommentId"
+          value="<%= comment.id %>"
+        >
+
+        <label for="reply-<%= comment.id %>">
+          Reply to <%= comment.username %>
+        </label>
+
+        <textarea
+          id="reply-<%= comment.id %>"
+          name="body"
+          placeholder="Write your reply..."
+          rows="3"
+          maxlength="1000"
+          required
+        ></textarea>
+
+        <button class="comment-submit-button"
+                type="submit">
+          Post Reply
+        </button>
+
+      </form>
+
+    </details>
+
+  <% } %>
+
+  <!-- Find all replies belonging to this comment -->
+  <% const replies = comments.filter((reply) =>
+    reply.parentCommentId != null &&
+    String(reply.parentCommentId) === String(comment.id)
+  ); %>
+
+  <!-- Display the replies underneath their parent comment -->
+  <% if (replies.length > 0) { %>
+
+    <div class="comment-replies">
+
+      <% replies.forEach((reply) => { %>
+
+        <%- include('comment', {
+          comment: reply,
+          comments: comments,
+          recipe: recipe,
+          currentUser: currentUser
+        }) %>
+
+      <% }) %>
+
+    </div>
+
+  <% } %>
+
+</article>

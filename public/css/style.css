@@ -257,3 +257,234 @@ a { color: #1f5f4a; }
 
   .comment.reply { margin-left: 12px; }
 }
+
+/*The recipe card comments button*/
+.recipe-card-comments {
+  margin-top: 12px;
+}
+
+.comments-button {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #1f5f4a;
+  border-radius: 5px;
+  background: #fff;
+  color: #1f5f4a;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.comments-button:hover {
+  background: #e6f0ec;
+}
+
+/*The recipe comments section*/
+.comments-section {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 2px solid #ccc;
+  scroll-margin-top: 20px;
+}
+
+.comments-title {
+  margin: 0 0 20px;
+  font-size: 26px;
+}
+
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/*The comment and reply forms*/
+.comment-form,
+.reply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comment-form {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #fafafa;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.comment-form label,
+.reply-form label {
+  font-weight: 600;
+}
+
+.comment-form textarea,
+.reply-form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  font: inherit;
+  resize: vertical;
+}
+
+.comment-form textarea:focus,
+.reply-form textarea:focus {
+  outline: 2px solid #1f5f4a;
+  outline-offset: 2px;
+}
+
+.comment-submit-button {
+  align-self: flex-end;
+  padding: 10px 18px;
+  border: 1px solid #1f5f4a;
+  border-radius: 5px;
+  background: #1f5f4a;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.comment-submit-button:hover {
+  background: #174936;
+}
+
+/*The individual comments*/
+.comment {
+  min-width: 0;
+  margin-bottom: 0;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.comment-username {
+  color: #1f5f4a;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.comment-username:hover {
+  text-decoration: underline;
+}
+
+.comment-body {
+  margin: 0 0 12px;
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/*The comment replies*/
+.comment-reply-details {
+  margin-top: 10px;
+}
+
+.reply-button {
+  width: fit-content;
+  color: #1f5f4a;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reply-button:hover {
+  text-decoration: underline;
+}
+
+.reply-form {
+  margin-top: 12px;
+  padding: 15px;
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.comment-replies {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  padding-left: 16px;
+  border-left: 2px solid #ccc;
+}
+
+.comment.reply {
+  margin-left: 0;
+  background: #f8f9f8;
+}
+/*The empty comments and login messages*/
+.comments-empty-message,
+.comment-login-message {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  color: #666;
+  text-align: center;
+}
+
+/*The rating section*/
+
+/*The rating area that holds rating*/
+.recipe-rating {
+  margin: 25px 0;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+/*The h2 text for rating*/
+.recipe-rating h2 {
+  margin-top: 0;
+}
+/*The rating average shown on recipe*/
+.average-rating {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.rating-form fieldset {
+  border: none;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.rating-form legend {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+/*The rating stars option*/
+.rating-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+/*The rating submit button*/
+.rating-submit-button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+/*The hover submit button*/
+.rating-submit-button:hover {
+  opacity: 0.85;
+}
