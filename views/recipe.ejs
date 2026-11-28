@@ -1,28 +1,77 @@
 <%- include('partials/header') %>
 <article class="recipe-detail">
+  <!--The recipe information-->
   <h1><%= recipe.title %></h1>
   <p>By <a href="/profile/<%= encodeURIComponent(recipe.username) %>"><%= recipe.username %></a></p>
   <p><%= recipe.cuisine %> | <%= recipe.mealType %> | <%= recipe.cookTimeMinutes %> min | <%= recipe.difficulty %></p>
   <p>Tags: <%= recipe.dietaryTags.join(', ') || 'none' %></p>
 
+  <!--The recipe rating section-->
   <%# TODO(Dwayne, Phase 2): replace this with the 5-star rating feature. %>
   <p>Rating: <%= recipe.reviewCount ? recipe.averageRating : 'none yet' %> (<%= recipe.reviewCount %> reviews)</p>
-
+  <!--The Recipe ingredients section-->
   <h2>Ingredients</h2>
   <ul>
     <% recipe.ingredients.forEach((ingredient) => { %><li><%= ingredient %></li><% }) %>
   </ul>
-
+  <!--The Recipe Instructions-->
   <h2>Instructions</h2>
   <p class="instructions"><%= recipe.instructions %></p>
-
+  <!--The recipe comment section-->
   <%# TODO(Dwayne, Phase 2): add the comment form and threaded replies. %>
-  <h2>Comments</h2>
-  <% comments.forEach((comment) => { %>
-    <div class="comment<%= comment.parentCommentId ? ' reply' : '' %>">
-      <strong><%= comment.username %></strong>
-      <p><%= comment.body %></p>
-    </div>
-  <% }) %>
+  <section id="comments" class="comments-section">
+    <h2 class="comments-title">
+      Comments (<%= comments.length %>)
+    </h2>
+    <!--Check whether the user is logged in with an account-->
+  <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+  <!--The form for creating a new comment-->
+  <form class="comment-form" action="/recipes/<%= recipe.id %>/comments" method="post">
+    <label for="comment-body">
+      Leave a comment
+    </label>
+    <textarea
+    id="comment-body"
+    name="body"
+    placeholder="Share your thoughts about this recipe..."
+    rows="4"
+    maxlength="1000"
+    required
+    ></textarea>
+    <button class="comment-submit-button" type="submit">
+      Post Comment
+    </button>
+  </form>
+  <% } else { %>
+    <!--The messeage for users who are not logged in-->
+  <p class="comment-login-message">
+    Please <a href="/login">Log in</a>
+    to leave a comment or reply.
+  </p>
+  <% } %>
+  <!--Display the existing comments made-->
+  <div class="comment-list">
+  <% if (comments.length > 0) { %>
+  <!--This display the top level comments-->
+  <% comments.filter((comment) =>
+    comment.parentCommentId == null
+  ).forEach((comment) => { %>
+    <%- include('partials/comment', {
+      comment: comment,
+      comments: comments,
+      recipe: recipe,
+      currentUser:
+      typeof currentUser !== 'undefined'
+      ? currentUser
+      : null
+    }) %>
+    <% }) %>
+    <% } else { %>
+    <p class="comments-empty-message">
+      No comments yet. Be the first to comment!
+    </p>
+    <% } %>
+  </div>
+  </section>
 </article>
 <%- include('partials/footer') %>
