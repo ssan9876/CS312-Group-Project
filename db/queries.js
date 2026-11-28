@@ -109,12 +109,60 @@ async function getFeaturedRecipes() {
   return sample.recipes.slice(0, 4);
 }
 
+// Gets the recipe from the sql
 async function getRecipeById(id) {
-  return sample.recipes.find((recipe) => recipe.id === id);
+  const { rows } = await pool.query(
+    `SELECT ${RECIPE_COLUMNS}
+     ${RECIPE_FROM}
+     WHERE r.id = $1`,
+    [id],
+  );
+
+  return rows[0];
 }
 
+// This shows all the comments on the recipe card from oldest to first
 async function getRecipeComments(recipeId) {
-  return sample.comments.filter((comment) => comment.recipeId === recipeId);
+  const { rows } = await pool.query(
+    `SELECT
+       c.id,
+       c.recipe_id AS "recipeId",
+       c.parent_comment_id AS "parentCommentId",
+       c.body,
+       c.created_at AS "createdAt",
+       u.username
+     FROM comments c
+     JOIN users u ON u.id = c.user_id
+     WHERE c.recipe_id = $1
+     ORDER BY c.created_at ASC, c.id ASC`,
+    [recipeId],
+  );
+
+  return rows;
+}
+
+// This saves the comments to the SQl
+async function createRecipeComment({
+  recipeId,
+  userId,
+  parentCommentId,
+  body
+}) {
+  const { rows } = await pool.query(
+    `INSERT INTO comments (recipe_id, user_id, parent_comment_id, body)
+     SELECT $1, $2, $3, $4
+     WHERE $3::integer IS NULL
+        OR EXISTS (
+          SELECT 1
+          FROM comments
+          WHERE id = $3
+            AND recipe_id = $1
+        )
+     RETURNING id`,
+    [recipeId, userId, parentCommentId, body],
+  );
+
+  return rows[0];
 }
 
 // ---- Accounts (used by routes/auth.js) ----
@@ -215,6 +263,7 @@ module.exports = {
   getFeaturedRecipes,
   getRecipeById,
   getRecipeComments,
+  createRecipeComment,
   createUser,
   getUserForLogin,
   getUserByUsername,
